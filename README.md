@@ -7,3 +7,6 @@ Questions if its possible to do this without joining data from multiple tables. 
 
 # Using Write.Socrata for EMS Incidents
 Write.Socrata is really cool and is going to open up a number of different doors. The first door was to see if you could throw forecasted values back into a table.  This model shows that it is possible.  This needs to be extended to make it dynamic however and updatable. Right now the dates are all fixed values. 
+
+# Converting Long Form Data to Wide Form Data using Dyplr
+Takes long form data and transforms it into wide form data using a single gather() function.  
