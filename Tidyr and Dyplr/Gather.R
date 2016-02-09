@@ -6,4 +6,4 @@ socrataEmail <- Sys.getenv("SOCRATA_EMAIL", "stuart.gano@socrata.com")
 socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "Wakeboard1")
 
 datasetToAddToUrl <- "https://opendata.socrata.com/resource/qvqx-yuvy.json"
-write.socrata(long.DF,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
+write.socrata(long.DF,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword
