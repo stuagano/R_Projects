@@ -40,5 +40,6 @@ raleigh$city <- "City of Raleigh"
 raleigh$applieddates <- strptime(raleigh$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
 raleigh$issueddates <- strptime(raleigh$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
 raleigh$Location_extra <-paste("(",raleigh$Latitude,",",raleigh$Longitude,")")
+#still need to drop some unnecessary vectors from the table in order to merge 
 
 total <- rbind(seattle, fortworth) # still need to match up fields and drop ones that arent relevant 
