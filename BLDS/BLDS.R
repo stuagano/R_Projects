@@ -11,7 +11,7 @@ seattle <- read.csv(curl(cdi_url)) # read it in as a table.
 seattle$city <- "City of Seattle" #add city of Seattle to data frame for eventual joining
 seattle$applieddates <- strptime(seattle$AppliedDate, format = "%m/%d/%Y %H:%M:%S") # convert strings to date and time
 seattle$issueddates <- strptime(seattle$IssuedDate, format = "%m/%d/%Y %H:%M:%S") # issued dates convert
-seattle$difftime <- difftime(seattle$issueddates,seattle$applieddates, units = "days") # calculates the date difference in terms of days 
+seattle$difftime <- as.numeric(difftime(seattle$issueddates,seattle$applieddates))
 seattle$Applicant.Name_extra <- NULL
 seattle$Work.Type_extra <- NULL
 
@@ -21,7 +21,7 @@ fortworth <- read.csv(curl(cdi2_url))
 fortworth$city <- "City of Forth Worth"
 fortworth$applieddates <- strptime(fortworth$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
 fortworth$issueddates <- strptime(fortworth$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
-fortworth$difftime <- difftime(fortworth$issueddates,fortworth$applieddates, units = "days")
+fortworth$difftime <- as.numeric(difftime(fortworth$issueddates,fortworth$applieddates, units = "days"))
 fortworth$Special.Text_extra <- NULL #some field mapping.
 fortworth$Permit.Sub.type_extra <- NULL
 fortworth$Owner.s.Name_extra <- NULL
@@ -40,8 +40,7 @@ raleigh$city <- "City of Raleigh"
 raleigh$applieddates <- strptime(raleigh$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
 raleigh$issueddates <- strptime(raleigh$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
 raleigh$Location_extra <-paste("(",raleigh$Latitude,",",raleigh$Longitude,")")
-raleigh$difftime <- difftime(raleigh$issueddates,raleigh$applieddates, units = "days")
-
+raleigh$difftime <- as.numeric(difftime(raleigh$applieddates,raleigh$issueddates, units = "days"))
 raleigh$in_out_city_limits_extra <- NULL
 raleigh$county_extra <- NULL
 raleigh$county_account_number_extra <- NULL
@@ -63,6 +62,7 @@ newOrleans$city <- "City of New Orleans"
 newOrleans$applieddates <- strptime(newOrleans$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
 newOrleans$issueddates <- strptime(newOrleans$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
 newOrleans$Location_extra <-paste("(",newOrleans$Latitude,",",newOrleans$Longitude,")")
+newOrleans$difftime <- as.numeric(difftime(newOrleans$issueddates,newOrleans$applieddates, units = "days"))
 newOrleans$HistoricDistrict_extra <- NULL
 newOrleans$Zoning_extra <- NULL
 newOrleans$CouncilDist_extra <- NULL
@@ -92,3 +92,9 @@ newOrleans$Owner_extra <- NULL
 newOrleans$geom <- "NA"
 
 total <- rbind(seattle, fortworth, raleigh, newOrleans) # still need to match up fields and drop ones that arent relevant 
+view(total$difftime)
+
+socrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
+socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "XXXX")
+datasetToAddToUrl <- "https://stubox2.demo.socrata.com/resource/pgw9-g83a.json"
+write.socrata(projected.DF,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
