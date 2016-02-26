@@ -91,7 +91,28 @@ newOrleans$IsClosed_extra <- NULL
 newOrleans$Owner_extra <- NULL
 newOrleans$geom <- "NA"
 
-total <- rbind(seattle, fortworth, raleigh, newOrleans) # still need to match up fields and drop ones that arent relevant 
+#City of Redmond 
+cdi6_url = "https://permits.partner.socrata.com/resource/r9sj-7n4p.csv?$limit=50000"
+redmond <- read.csv(curl(cdi6_url))
+redmond$city <- "City of Redmond"
+redmond$applieddates <- strptime(redmond$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
+redmond$issueddates <- strptime(redmond$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
+redmond$difftime <- as.numeric(difftime(redmond$issueddates,redmond$applieddates, units = "days"))
+redmond$Location_extra <-paste("(",redmond$Latitude,",",redmond$Longitude,")")
+redmond$Additional.Reference_extra <- NULL
+redmond$Owner_extra <- NULL
+redmond$Applicant_extra <- NULL
+redmond$Tenant_extra <- NULL
+redmond$Lender_extra <- NULL
+redmond$Designer.of.Record_extra <- NULL
+redmond$geom <- NA
+
+
+
+
+
+
+total <- rbind(seattle, fortworth, raleigh, newOrleans, redmond) # still need to match up fields and drop ones that arent relevant 
 view(total$difftime)
 
 socrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
