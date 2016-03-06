@@ -351,7 +351,7 @@ total2 <- smartbind(total, wake)
 
 SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
 socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "xxxx")
-datasetToAddToUrl <- ""
+datasetToAddToUrl <- "https://opendata.socrata.com/resource/9wjv-w4fx.json"
 write.socrata(total,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
 
 
