@@ -349,6 +349,75 @@ wake$HEALTHOPBY <- NULL
 wake$GEOCODESTATUS <- NULL
 total2 <- smartbind(total, wake)
 
+#City and County of Durham (Active Permits)
+cod_url <- "https://opendurham.nc.gov/explore/dataset/active-building-permits/download/?format=json&timezone=America/New_York"
+doc <- fromJSON(txt=cod_url)
+doc$city <- "Durham"
+doc$PermitNum <- doc$PERMIT_ID
+doc$Description <- doc$P_DESCRIPT
+doc$AppliedData <- NULL
+doc$IssuedDate <- NULL
+doc$CompletedDate <- NULL
+doc$StatusCurrent <- doc$P_STATUS
+doc$OriginalAddress1 <- doc$SITEADD
+doc$OriginalAddress2 <- NULL
+doc$OriginalCity <- "Durham"
+doc$OriginalState <- "North Carolina"
+doc$OriginalZip <- NULL
+doc$Jurisdiction <- doc$BUILD_DIST
+doc$PermitClass <- NULL
+doc$PermitClassMapped <- NULL
+doc$StatusCurrentMapped <- "Permit Issued"
+doc$WorkClass <- NULL
+doc$WorkClassMapped <- NULL
+doc$PermitType <- "Building"
+doc$PermitTypeMapped <- "Building"
+doc$PermitTypeDesc <- NULL
+doc$StatusDate <- NULL
+doc$TotalSqFt	<- NULL
+doc$Link <- "https://opendurham.nc.gov/explore/dataset/active-building-permits/table/"
+for (i in 1:length(doc$fields$geo_point_2d)) {
+  doc$Latitude[i] <- doc$fields$geo_point_2d[[i]][1]
+  doc$Longitude[i] <- doc$fields$geo_point_2d[[i]][2]
+}
+doc$EstProjectCost <- NULL
+doc$HousingUnits <- NULL
+doc$ContractorCompanyName	<- NULL
+doc$ContractorTrade <- NULL
+doc$ContractorTradeMapped <- NULL
+doc$ContractorLicNum <- NULL
+doc$ContractorStateLic <- NULL
+doc$ProposedUse <- NULL
+doc$AddedSqFt <- NULL
+doc$RemovedSqFt <- NULL
+doc$MasterPermitNum <- NULL
+doc$ExpiresDate <- NULL
+doc$COIssuedDate	<- NULL
+doc$HoldDate <- NULL
+doc$VoidDate <- NULL
+doc$ProjectName <- NULL
+doc$ProjectID <- NULL
+doc$TotalFinishedSqFt <- NULL
+doc$TotalUnfinishedSqFt <- NULL
+doc$TotalHeatedSqFt <- NULL
+doc$TotalUnHeatedSqFt <- NULL
+doc$TotalAccSqFt <- NULL
+doc$TotalSprinkledSqFt <- NULL
+doc$ExtraFields <- NULL
+doc$Publisher <- "County of Durham"
+doc$Fee <- NULL
+doc$ContractorFullName <- NULL
+doc$ContractorCompanyDesc <- NULL
+doc$ContractorPhone <- NULL
+doc$ContractorAddress1 <- NULL
+doc$ContractorAddress2 <- NULL
+doc$ContractorCity <- NULL
+doc$ContractorState <- NULL
+doc$ContractorZip <- NULL
+doc$ContractorEmail <- NULL
+total <- smartbind(total, doc, fill=NA)
+
+
 SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
 socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "xxxx")
 datasetToAddToUrl <- "https://opendata.socrata.com/resource/9wjv-w4fx.json"
