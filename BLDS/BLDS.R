@@ -95,8 +95,8 @@ newOrleans$geom <- "NA"
 cdi6_url = "https://permits.partner.socrata.com/resource/r9sj-7n4p.csv?$limit=50000"
 redmond <- read.csv(curl(cdi6_url))
 redmond$city <- "City of Redmond"
-redmond$applieddates <- strptime(redmond$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
-redmond$issueddates <- strptime(redmond$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
+redmond$applieddates <- strptime(redmond$AppliedDate, format = "%m/%d/%Y")
+redmond$issueddates <- strptime(redmond$IssuedDate, format = "%m/%d/%Y")
 redmond$difftime <- as.numeric(difftime(redmond$issueddates,redmond$applieddates, units = "days"))
 redmond$Location_extra <-paste("(",redmond$Latitude,",",redmond$Longitude,")")
 redmond$Additional.Reference_extra <- NULL
@@ -111,18 +111,20 @@ redmond$geom <- NA
 cdi7_url = "https://permits.partner.socrata.com/resource/mwqc-wq7d.csv?$limit=50000"
 auburn <- read.csv(curl(cdi7_url))
 auburn$city <- "City of Auburn"
-auburn$applieddates <- strptime(auburn$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
-auburn$issueddates <- strptime(auburn$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
+auburn$applieddates <- strptime(auburn$AppliedDate, format = "%m/%d/%Y")
+auburn$issueddates <- strptime(auburn$IssuedDate, format = "%m/%d/%Y")
 auburn$difftime <- as.numeric(difftime(auburn$issueddates,auburn$applieddates, units = "days"))
 auburn$Location_extra <-paste("(",auburn$Latitude,",",auburn$Longitude,")")
+auburn$Owner_Extra <- NULL
+auburn$Applicant_Extra <- NULL
 
 
 #City of Nashville 
 cdi8_url = "https://permits.partner.socrata.com/resource/7ky7-xbzp.csv?$limit=50000"
 nashville <- read.csv(curl(cdi8_url))
 nashville$city <- "City of Nashville"
-nashville$applieddates <- strptime(nashville$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
-nashville$issueddates <- strptime(nashville$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
+nashville$applieddates <- strptime(nashville$AppliedDate, format = "%m/%d/%Y")
+nashville$issueddates <- strptime(nashville$IssuedDate, format = "%m/%d/%Y")
 nashville$difftime <- as.numeric(difftime(nashville$issueddates,nashville$applieddates, units = "days"))
 nashville$Location_extra <-paste("(",nashville$Latitude,",",nashville$Longitude,")")
 nashville$parcel_extra <- NULL
@@ -131,18 +133,24 @@ nashville$per_ty_extra <- NULL
 nashville$ivr_trk_extra <- NULL
 nashville$purpose_extra <- NULL
 nashville$geom <- NA
+nashville$Purpose_extra <- NULL
+nashville$IVR.Trk._extra <- NULL
+nashville$Per.Ty_extra <- NULL
+nashville$Subdivision.Lot_extra <- NULL
+nashville$Parcel_extra <- NULL
 
 #City of New Castle
 cdi9_url = "https://permits.partner.socrata.com/resource/rkv3-79i5.csv?$limit=50000"
 new_castle <- read.csv(curl(cdi9_url))
 new_castle$city <- "City of New Castle"
-new_castle$applieddates <- strptime(new_castle$AppliedDate, format = "%m/%d/%Y %H:%M:%S")
-new_castle$issueddates <- strptime(new_castle$IssuedDate, format = "%m/%d/%Y %H:%M:%S")
+new_castle$applieddates <- strptime(new_castle$IssuedDate, format = "%m/%d/%Y")
+new_castle$issueddates <- strptime(new_castle$COIssuedDate, format = "%m/%d/%Y")
 new_castle$difftime <- as.numeric(difftime(new_castle$issueddates,new_castle$applieddates, units = "days"))
 new_castle$location_extra <- NULL
 new_castle$Location_extra <-paste("(",new_castle$Latitude,",",new_castle$Longitude,")")
 new_castle$geom <- NA
 new_castle$subdivision_extra <- NULL
+new_castle$Subdivision_Extra <- NULL
 
 #City of Santa Rosa
 cdi10_url = "https://permits.partner.socrata.com/resource/43a8-pijb.csv?$limit=50000"
@@ -156,13 +164,13 @@ santa_rosa$applicant_extra <- NULL
 santa_rosa$sub_type_extra <- NULL
 santa_rosa$subtypedescription_extra <- NULL
 santa_rosa$validation_extra <- NULL
+#Santa Rosa only has one value for permits. Cant Include
 
 
-
-total <- rbind(seattle, fortworth, raleigh, newOrleans, redmond, auburn, new_castle, nashville, santa_rosa) # still need to match up fields and drop ones that arent relevant 
+total <- rbind(seattle, fortworth, raleigh, newOrleans, redmond, nashville)
 view(total$difftime)
 
 socrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
-socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "XXXX")
+socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "xxxx")
 datasetToAddToUrl <- "https://stubox2.demo.socrata.com/resource/pgw9-g83a.json"
 write.socrata(total,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
