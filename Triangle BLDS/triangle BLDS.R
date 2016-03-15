@@ -29,6 +29,41 @@ raliraleigh$proposed_work_extra <- NULL
 raleigh$development_plan_name_extra <- NULL
 raleigh$geom <- "NA"
 
+#Raleigh New Dataset
+cdi5_url <- 'https://data.raleighnc.gov/resource/xce4-kemu.csv?$limit=50000'
+raliegh2 <- read.csv(curl(cdi5_url))
+raliegh2$AppliedDate <- NA
+raliegh2$CompletedDate <- NA
+raliegh2$PermitTypeDescription <- NA
+raliegh2$StatusDate <- NA
+raliegh2$Link <- NA
+raliegh2$Latitude <- raliegh2$Latitude_perm
+raliegh2$Latitude_perm <- NULL
+raliegh2$Longitude <- raliegh2$Longitude_perm
+raliegh2$Longitude_perm <- NULL
+raliegh2$EstProjectCostText <- NA
+raliegh2$Units <- raliegh2$HousingUnitsTotal
+raliegh2$HousingUnitsTotal <- NULL
+raliegh2$ContractorTradeMapped <- NA
+raliegh2$ContractorStateLic <- NA
+raliegh2$AddedSqFt <- NA
+raliegh2$MasterPermitNum <- NA
+raliegh2$HoldDate <- NA
+raliegh2$ProjectID <- raliegh2$DevPlanID
+raliegh2$DevPlanID <- NULL
+raliegh2$TotalFinishedSqFt <- NA
+raliegh2$TotalUnfinishedSqFt <- NA
+raliegh2$TotalHeatedSqFt <- NA
+raliegh2$TotalUnHeatedSqFt <- NA
+raliegh2$TotalAccSqFt <- NA
+raliegh2$TotalSprinkledSqFt <- NA
+raliegh2$ContractorFullName <- NA
+raliegh2$ContractorCompanyDesc <- NA
+raliegh2$city <- "City of Raleigh"
+raliegh2$applieddates <- NA
+raliegh2$issueddates <- NA
+raleigh2$Location_extra <-paste("(",raleigh2$Latitude,",",raleigh2$Longitude,")")
+
 #Town of Cary
 url <- 'https://data.townofcary.org/explore/dataset/permit-applications/download/?format=json&timezone=America/New_York'
 document <- fromJSON(txt=url)
@@ -347,10 +382,81 @@ wake$HEALTHPERMITNUMBER <- NULL
 wake$HEALTHOPDATE <- NULL
 wake$HEALTHOPBY <- NULL
 wake$GEOCODESTATUS <- NULL
-total2 <- smartbind(total, wake)
 
-SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
-socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "xxxx")
+#town of cary cleanup
+document$PermitClassMapped <- NA
+
+#City and County of Durham (Active Permits)
+cod_url <- "https://opendurham.nc.gov/explore/dataset/active-building-permits/download/?format=json&timezone=America/New_York"
+doc <- fromJSON(txt=cod_url)
+doc$city <- "Durham"
+doc$PermitNum <- doc$PERMIT_ID
+doc$Description <- doc$P_DESCRIPT
+doc$AppliedData <- NULL
+doc$IssuedDate <- NULL
+doc$CompletedDate <- NULL
+doc$StatusCurrent <- doc$P_STATUS
+doc$OriginalAddress1 <- doc$SITEADD
+doc$OriginalAddress2 <- NULL
+doc$OriginalCity <- "Durham"
+doc$OriginalState <- "North Carolina"
+doc$OriginalZip <- NULL
+doc$Jurisdiction <- doc$BUILD_DIST
+doc$PermitClass <- NULL
+doc$PermitClassMapped <- NULL
+doc$StatusCurrentMapped <- "Permit Issued"
+doc$WorkClass <- NULL
+doc$WorkClassMapped <- NULL
+doc$PermitType <- "Building"
+doc$PermitTypeMapped <- "Building"
+doc$PermitTypeDesc <- NULL
+doc$StatusDate <- NULL
+doc$TotalSqFt	<- NULL
+doc$Link <- "https://opendurham.nc.gov/explore/dataset/active-building-permits/table/"
+for (i in 1:length(doc$fields$geo_point_2d)) {
+  doc$Latitude[i] <- doc$fields$geo_point_2d[[i]][1]
+  doc$Longitude[i] <- doc$fields$geo_point_2d[[i]][2]
+}
+doc$EstProjectCost <- NULL
+doc$HousingUnits <- NULL
+doc$ContractorCompanyName	<- NULL
+doc$ContractorTrade <- NULL
+doc$ContractorTradeMapped <- NULL
+doc$ContractorLicNum <- NULL
+doc$ContractorStateLic <- NULL
+doc$ProposedUse <- NULL
+doc$AddedSqFt <- NULL
+doc$RemovedSqFt <- NULL
+doc$MasterPermitNum <- NULL
+doc$ExpiresDate <- NULL
+doc$COIssuedDate	<- NULL
+doc$HoldDate <- NULL
+doc$VoidDate <- NULL
+doc$ProjectName <- NULL
+doc$ProjectID <- NULL
+doc$TotalFinishedSqFt <- NULL
+doc$TotalUnfinishedSqFt <- NULL
+doc$TotalHeatedSqFt <- NULL
+doc$TotalUnHeatedSqFt <- NULL
+doc$TotalAccSqFt <- NULL
+doc$TotalSprinkledSqFt <- NULL
+doc$ExtraFields <- NULL
+doc$Publisher <- "County of Durham"
+doc$Fee <- NULL
+doc$ContractorFullName <- NULL
+doc$ContractorCompanyDesc <- NULL
+doc$ContractorPhone <- NULL
+doc$ContractorAddress1 <- NULL
+doc$ContractorAddress2 <- NULL
+doc$ContractorCity <- NULL
+doc$ContractorState <- NULL
+doc$ContractorZip <- NULL
+doc$ContractorEmail <- NULL
+
+xtotal2 <- smartbind(total, wake)
+
+SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "stuart.gano@socrata.com")
+socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "Wakeboard1")
 datasetToAddToUrl <- "https://opendata.socrata.com/resource/9wjv-w4fx.json"
 write.socrata(total,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
 
