@@ -559,19 +559,18 @@ doc$ContractorCity <- NULL
 doc$ContractorState <- NULL
 doc$ContractorZip <- NULL
 doc$ContractorEmail <- NULL
-<<<<<<< HEAD
 
-xtotal2 <- smartbind(total, wake)
+total2 <- smartbind(total, wake)
 
-SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "stuart.gano@socrata.com")
-socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "Wakeboard1")
-=======
+SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "XXX@socrata.com")
+socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "XXXX")
+
 total <- smartbind(total, doc, fill=NA)
 
 
 SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
 socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "xxxx")
->>>>>>> 0e214469f3a8d9688d7741113f206923e515cebb
+
 datasetToAddToUrl <- "https://opendata.socrata.com/resource/9wjv-w4fx.json"
 write.socrata(total,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
 
