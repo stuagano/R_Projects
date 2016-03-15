@@ -7,7 +7,7 @@ library("gtools")
 install_github("Chicago/RSocrata")
 
 
-#city of Raliegh 
+#city of Raliegh old and deprecated
 cdi4_url = "https://permits.partner.socrata.com/resource/pjib-v4rg.csv?$limit=50000"
 raleigh <- read.csv(curl(cdi4_url))
 raleigh$city <- "City of Raleigh"
@@ -29,7 +29,7 @@ raliraleigh$proposed_work_extra <- NULL
 raleigh$development_plan_name_extra <- NULL
 raleigh$geom <- "NA"
 
-#Raleigh New Dataset
+#Raleigh New Dataset all good now
 cdi5_url <- 'https://data.raleighnc.gov/resource/xce4-kemu.csv?$limit=50000'
 raliegh2 <- read.csv(curl(cdi5_url))
 raliegh2$AppliedDate <- NA
@@ -114,8 +114,12 @@ raliegh2$StreetType <- NULL
 raliegh2$StreetNum <- NULL
 raliegh2$difftime <- NA
 raliegh2$geom <- NA
+raliegh2$EstProjectCostDec <- NA
+raliegh2$PermitTypeDesc <- raliegh2$PermitTypeDescription
+raliegh2$PermitTypeDescription <- NULL
 
-#Town of Cary
+
+#Town of Cary all good
 url <- 'https://data.townofcary.org/explore/dataset/permit-applications/download/?format=json&timezone=America/New_York'
 document <- fromJSON(txt=url)
 document$contractortrademapped <- document$fields$contractortrademapped
@@ -172,7 +176,7 @@ document$StatusDate <- document$fei
 document$StatusDate <- document$fields$statusdate
 document$TotalSqFt <- document$fields$totalsqft
 document$Latitude <- document$fields$latitude
-docment$Longitude <- document$fields$longitude
+document$Longitude <- document$fields$longitude
 document$Longitude <- document$fields$longitude
 document$EstProjectCostDesc <- document$fields$projectcost
 document$Units <- "NA"
@@ -231,10 +235,47 @@ document$ContractorLicNum <- NULL
 document$PIN <- document$Pin
 document$Pin <- NULL
 document$PIN <- NA
-View(document)
-View(document)
 document$MasterPermitNum <- NA
-total <- smartbind(document, raleigh, fill = NA)
+document$AddedSqFt <- NA
+document$COIssuedDate <- NA
+document$ContractorAddress1 <- document$contractoraddress
+document$ContractorAddress2 <- NA
+document$contractoraddress <- NULL
+document$ContractorCity <- NA
+document$ContractorCompanyDesc <- NA
+document$ContractorEmail <- NA
+document$ContractorFullName <- NA
+document$ContractorLicNum <- NA
+document$ContractorPhone <- NA
+document$ContractorState <- NA
+document$ContractorStateLic <- NA
+document$ContractorTrade <- NA
+document$ContractorTradeMapped <- NA
+document$ContractorZip <- NA
+document$difftime <- NA
+document$Fee <- NA
+document$ExpiresDate <- NA
+document$HoldDate <- NA
+document$issueddates <-NA
+document$ProjectID <- NA
+document$ProjectName <- NA
+document$ProposedUse <- NA
+document$ownername <- NULL
+document$ownerzip <- NULL
+document$statuscurrentmapped <- NULL
+document$TotalAccSqFt <- NA
+document$TotalFinishedSqFt <- NA
+document$TotalHeatedSqFt <- NA
+document$TotalSprinkledSqFt <- NA
+document$TotalUnfinishedSqFt <- NA
+document$TotalUnHeatedSqFt <- NA
+document$VoidDate <- NA
+document$ContractLicNum <- document$ContractLicNum
+document$ContractLicNum <- NULL
+document$LandUseDescription <- NA
+document$StateLicNum <- NA
+
+total2 <-smartbind(document, total)
 
 #Wake County 
 url2 <- "http://data.wake.opendata.arcgis.com/datasets/8295268844ba4b7db2c22a1f7ff0f460_0.csv"
@@ -433,13 +474,25 @@ wake$HEALTHPERMITNUMBER <- NULL
 wake$HEALTHOPDATE <- NULL
 wake$HEALTHOPBY <- NULL
 wake$GEOCODESTATUS <- NULL
+wake$ProposedUSe <- NULL
+wake$LandUseDescription <- NA
+wake$StateLicNum <- NA
+wake$OriginalCity <- wake$OringinalCity
+wake$OringinalCity <- NULL
+wake$OriginalAddress1 <- wake$OringalAddress1
+wake$OringalAddress1 <- NULL
+wake$OriginalAddress2 <- wake$OringalAddress2
+wake$OringalAddress2 <- NULL
+wake$CompletedDate <- wake$CompleteDate
+wake$CompleteDate <- NULL
+wake$ContractorZip <- NA
 
-<<<<<<< HEAD
+total3 <- smartbind(wake, total2)
+
 #town of cary cleanup
 document$PermitClassMapped <- NA
 
-=======
->>>>>>> 0e214469f3a8d9688d7741113f206923e515cebb
+
 #City and County of Durham (Active Permits)
 cod_url <- "https://opendurham.nc.gov/explore/dataset/active-building-permits/download/?format=json&timezone=America/New_York"
 doc <- fromJSON(txt=cod_url)
