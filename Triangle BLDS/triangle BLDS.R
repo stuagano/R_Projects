@@ -63,6 +63,57 @@ raliegh2$city <- "City of Raleigh"
 raliegh2$applieddates <- NA
 raliegh2$issueddates <- NA
 raleigh2$Location_extra <-paste("(",raleigh2$Latitude,",",raleigh2$Longitude,")")
+raliegh2$CoRLotId <- NULL
+raliegh2$CensusLandUse <- NULL
+raliegh2$CensusLandUseCode <- NULL
+raliegh2$CntyAcctNum <- NULL
+raliegh2$COCIssuedDate <- NULL
+raliegh2$COCNbr <- NULL
+raliegh2$ConstCompletedOfficial <- NULL
+raliegh2$ContractorDBA <- NULL
+raliegh2$CountyLocation <- NULL
+raliegh2$ExpiredNewPermNum <- NULL
+raliegh2$Fee <- NULL
+raliegh2$FiscalYear <- NULL
+raliegh2$Geocoded_MatchScore <- NULL
+raliegh2$Location_extra <- raliegh2$Geocoded_PermAddr
+raliegh2$GovtOwnedProp<- NULL
+raliegh2$Geocoded_PermAddr <- NULL
+raliegh2$GroupTenantName <- NULL
+raliegh2$GRP_COMMENT_1 <- NULL
+raliegh2$GRP_B_BLDG_OCC_CLASS_NEW <- NULL
+raliegh2$GRP_BLDG_BASEMENT_OCCUPIED <- NULL
+raliegh2$GRP_COMMENT_2 <- NULL
+raliegh2$GRP_CO_COMMENT <- NULL
+raliegh2$GRP_REVIEW_PATH <-NULL
+raliegh2$GRP_BLDG_FOOTPRINT <-NULL
+raliegh2$GRP_TEMP_CO_COMMENT_1 <- NULL
+raliegh2$GRP_TEMP_CO_COMMENT_2 <- NULL
+raliegh2$HousingUnitsExist <- NULL
+raliegh2$IssuedDate_Mth <-NULL
+raliegh2$IssuedDate_Yr <- NULL
+raliegh2$Jurisdiction_AtIssue <- NULL
+raliegh2$Jurisdiction_InOut_Ral <- NULL
+raliegh2$LandUseNewUse <- NULL
+raliegh2$Location_Geocoded <- NULL
+raliegh2$MapSheet <- NULL
+raliegh2$NumberStories <- NULL
+raliegh2$OriginalAddressFull <- NULL
+raliegh2$PARC_OPEN_SPACE_ZONE_FEE <- NULL
+raliegh2$ParcelOwnerName <- NULL
+raliegh2$ParcelOwnerAddress1 <- NULL
+raliegh2$ParcelOwnerAddress2 <- NULL
+raliegh2$PERM_COMMENTS <- NULL
+raliegh2$Publisher <- NULL
+raliegh2$ProposedWorkDescription <- NULL
+raliegh2$RecordUpdateDate <- NULL
+raliegh2$StreetDirectionPrefix <- NULL
+raliegh2$StreetDirectionSuffix <- NULL
+raliegh2$ReviewerComments <- NULL
+raliegh2$StreetType <- NULL
+raliegh2$StreetNum <- NULL
+raliegh2$difftime <- NA
+raliegh2$geom <- NA
 
 #Town of Cary
 url <- 'https://data.townofcary.org/explore/dataset/permit-applications/download/?format=json&timezone=America/New_York'
@@ -383,9 +434,12 @@ wake$HEALTHOPDATE <- NULL
 wake$HEALTHOPBY <- NULL
 wake$GEOCODESTATUS <- NULL
 
+<<<<<<< HEAD
 #town of cary cleanup
 document$PermitClassMapped <- NA
 
+=======
+>>>>>>> 0e214469f3a8d9688d7741113f206923e515cebb
 #City and County of Durham (Active Permits)
 cod_url <- "https://opendurham.nc.gov/explore/dataset/active-building-permits/download/?format=json&timezone=America/New_York"
 doc <- fromJSON(txt=cod_url)
@@ -452,11 +506,19 @@ doc$ContractorCity <- NULL
 doc$ContractorState <- NULL
 doc$ContractorZip <- NULL
 doc$ContractorEmail <- NULL
+<<<<<<< HEAD
 
 xtotal2 <- smartbind(total, wake)
 
 SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "stuart.gano@socrata.com")
 socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "Wakeboard1")
+=======
+total <- smartbind(total, doc, fill=NA)
+
+
+SocrataEmail <- Sys.getenv("SOCRATA_EMAIL", "xxx@socrata.com")
+socrataPassword <- Sys.getenv("SOCRATA_PASSWORD", "xxxx")
+>>>>>>> 0e214469f3a8d9688d7741113f206923e515cebb
 datasetToAddToUrl <- "https://opendata.socrata.com/resource/9wjv-w4fx.json"
 write.socrata(total,datasetToAddToUrl,"UPSERT",socrataEmail,socrataPassword)
 
